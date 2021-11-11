@@ -15,7 +15,11 @@ const buttonCancel = bigPicture.querySelector('#picture-cancel');
 
 const COMMENTS_COUNT = 5;
 
-const createComments = (bitComments) => {
+const updateCounter = (counter, total) => {
+  commentCounter.innerHTML = `${counter} из <span class="comments-count">${total}</span> комментариев`;
+};
+
+const drawCommentItems = (bitComments) => {
   const listCommentsFragment = document.createDocumentFragment();
 
   bitComments.forEach((commentItem) => {
@@ -33,50 +37,49 @@ const createComments = (bitComments) => {
   listComments.appendChild(listCommentsFragment);
 };
 
-const updateCounter = (counter, total) => {
-  commentCounter.innerHTML = `${counter} из <span class="comments-count">${total}</span> комментариев`;
+const selectBitComments = (allComments) => {
+  const bitComments = allComments.splice(0, COMMENTS_COUNT);
+  let numberComments = 0;
+  if (bitComments) {
+    numberComments = bitComments.length;
+    drawCommentItems(bitComments);
+  }
+  return numberComments;
+};
+
+const onCommentsLoaderClick = (allComments, counter, total) => {
+  counter += selectBitComments(allComments);
+  updateCounter(counter, total);
+
 };
 
 const showComments = (post) => {
   listComments.innerHTML = '';
   const allComments = post.comments.slice();
+  const total = post.comments.length;
   let counter = 0;
 
-  if (allComments.length <= COMMENTS_COUNT) {
-
+  if (total <= COMMENTS_COUNT) {
+    counter = total;
     commentsLoader.classList.add('hidden');
-    counter = allComments.length;
-    createComments(allComments);
-
+    drawCommentItems(allComments);
   } else {
-    commentsLoader.classList.remove('hidden');
-    let bitComments;
-
-    bitComments = allComments.splice(0, COMMENTS_COUNT);
-    counter += bitComments.length;
-    createComments(bitComments);
-
-    const onCommentsLoaderClick = () => {
-      bitComments = allComments.splice(0, COMMENTS_COUNT);
-      counter += bitComments.length;
-      createComments(bitComments);
-      updateCounter(counter, post.comments.length);
-    };
-    commentsLoader.addEventListener('click', onCommentsLoaderClick);
-
+    counter = selectBitComments(allComments);
+    commentsLoader.addEventListener('click', () => onCommentsLoaderClick(allComments, counter, total));
   }
-  updateCounter(counter, post.comments.length);
+
+  updateCounter(counter, total);
 };
 
 const closePhoto = () => {
   bigPicture.classList.add('hidden');
   document.body.classList.remove('modal-open');
+  commentsLoader.classList.remove('hidden');
 };
 
 const onButtonCancelClick = () => {
   closePhoto();
   buttonCancel.removeEventListener('click', onButtonCancelClick);
-  // commentsLoader.removeEventListener('click', onCommentsLoaderClick);
 };
 
 const openPhoto = (post) => {
@@ -94,14 +97,12 @@ const openPhoto = (post) => {
       evt.preventDefault();
       closePhoto();
       buttonCancel.removeEventListener('click', onButtonCancelClick);
-      // commentsLoader.removeEventListener('click', onCommentsLoaderClick);
       document.removeEventListener('keydown', onEscKeydown);
     }
   };
 
   document.addEventListener('keydown', onEscKeydown);
   buttonCancel.addEventListener('click', onButtonCancelClick);
-  // commentsLoader.addEventListener('click', onCommentsLoaderClick);
 };
 
 export {openPhoto};
