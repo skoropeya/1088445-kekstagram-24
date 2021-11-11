@@ -1,20 +1,25 @@
 import { isUniqueElements } from './utils/unique-element.js';
 import { removeClasses } from './utils/remove-classes.js';
 import { checkTypeFile } from './utils/type-file.js';
+import {createSlider, deleteSlider} from './effect-level.js';
 // import { sendData } from './api.js';
 
 const uploadForm = document.querySelector('#upload-select-image');
 
 const loaderFile = uploadForm.querySelector('#upload-file');
 const buttonCancel = uploadForm.querySelector('#upload-cancel');
-const editorImage = uploadForm.querySelector('.img-upload__overlay');
 
+const editorImage = uploadForm.querySelector('.img-upload__overlay');
 const image = editorImage.querySelector('.img-upload__preview img');
 const scaleControl = editorImage.querySelector('.scale');
 const textScale = editorImage.querySelector('.scale__control--value');
 const effectsList = editorImage.querySelector('.effects__list');
 const hashtags = editorImage.querySelector('.text__hashtags');
 const description = editorImage.querySelector('.text__description');
+
+const fieldEffectLevel = editorImage.querySelector('.effect-level');
+// const slider = fieldEffectLevel.querySelector('.effect-level__slider');
+// const effectLevel = fieldEffectLevel.querySelector('.effect-level__value');
 
 const SCALE_MIN = 25;
 const SCALE_MAX = 100;
@@ -86,6 +91,13 @@ const onEffectsChange = (evt) => {
 
     if (evt.target.value !== 'none') {
       image.classList.add(`effects__preview--${evt.target.value}`);
+
+      createSlider(evt.target.value);
+      // updateSliderOptions(evt.target.value);
+      fieldEffectLevel.classList.remove('hidden');
+    } else {
+      deleteSlider();
+      fieldEffectLevel.classList.add('hidden');
     }
   }
 };
