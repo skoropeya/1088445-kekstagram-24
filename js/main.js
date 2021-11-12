@@ -1,5 +1,5 @@
 import { getData } from './api.js';
-import { showAlert } from './utils/show-alert.js';
+import { showAlert } from './show-alert.js';
 import { showPreviews } from './gallery.js';
 import './full-photo.js';
 import { onLoaderFileChange } from './upload-form.js';

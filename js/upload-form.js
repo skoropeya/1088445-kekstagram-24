@@ -17,7 +17,6 @@ const textScale = editorImage.querySelector('.scale__control--value');
 const effectsList = editorImage.querySelector('.effects__list');
 const hashtags = editorImage.querySelector('.text__hashtags');
 const description = editorImage.querySelector('.text__description');
-
 const fieldEffectLevel = editorImage.querySelector('.effect-level');
 
 const SCALE_MIN = 25;
