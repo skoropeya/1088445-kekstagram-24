@@ -2,7 +2,8 @@ import { isUniqueElements } from './utils/unique-element.js';
 import { removeClasses } from './utils/remove-classes.js';
 import { checkTypeFile } from './utils/type-file.js';
 import {createSlider, updateSliderOptions, deleteSlider} from './effect-level.js';
-// import { sendData } from './api.js';
+import { sendData } from './api.js';
+import { showPopup } from './show-popup.js';
 
 const uploadForm = document.querySelector('#upload-select-image');
 
@@ -137,17 +138,21 @@ const closeUploadForm = () => {
 const onUploadFormSubmit = (evt) => {
   evt.preventDefault();
 
-  // sendData(
-  //   () => {
-  //     showPopup('success');
-  //     uploadForm.removeEventListener('submit', onUploadFormSubmit);
-  //     closeUploadForm();
-  //   },
+  sendData(
+    () => {
+      uploadForm.removeEventListener('submit', onUploadFormSubmit);
+      closeUploadForm();
+      showPopup('success');
+    },
 
-  //   () => showPopup('error'),
+    () => {
+      uploadForm.removeEventListener('submit', onUploadFormSubmit);
+      closeUploadForm();
+      showPopup('error');
+    },
 
-  //   new FormData(evt.target),
-  // );
+    new FormData(evt.target),
+  );
 };
 
 const openUploadForm = () => {

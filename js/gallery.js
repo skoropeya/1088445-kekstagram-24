@@ -4,7 +4,7 @@ const pictures = document.querySelector('.pictures');
 const templatePicture = document.querySelector('#picture').content.querySelector('.picture');
 const picturesFragment = document.createDocumentFragment();
 
-// сюда запишем массив объетов, полученный с сервера
+// сюда запишем массив объектов, полученный с сервера
 let dataPosts;
 
 const onPictureClick = (evt) => {
