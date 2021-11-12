@@ -4,6 +4,12 @@ const slider = editorImage.querySelector('.effect-level__slider');
 const effectLevel = editorImage.querySelector('.effect-level__value');
 
 const EFFECT_SETTINGS = {
+  'none': {
+    nameStyle: 'none',
+    min: -1,
+    max: 0,
+    step: 0,
+  },
   'chrome': {
     nameStyle: 'grayscale',
     min: 0,
@@ -36,18 +42,17 @@ const EFFECT_SETTINGS = {
   },
 };
 
-
-const createSlider = (effect) => {
-  const nameEffect = EFFECT_SETTINGS[effect];
-  effectLevel.value = nameEffect.max;
+const createSlider = () => {
+  const noEffect = EFFECT_SETTINGS['none'];
+  effectLevel.value = noEffect.max;
 
   noUiSlider.create(slider, {
     range: {
-      min: nameEffect.min,
-      max: nameEffect.max,
+      min: noEffect.min,
+      max: noEffect.max,
     },
-    start: nameEffect.max,
-    step: nameEffect.step,
+    start: noEffect.max,
+    step: noEffect.step,
     connect: 'lower',
   });
 
@@ -55,29 +60,41 @@ const createSlider = (effect) => {
     const styleValue = values[handle];
     effectLevel.value = styleValue;
 
-    if (nameEffect.nameStyle === 'invert') {
-      image.style.filter = `${nameEffect.nameStyle}(${styleValue}%)`;
-    } else if (nameEffect.nameStyle === 'blur') {
-      image.style.filter = `${nameEffect.nameStyle}(${styleValue}px)`;
-    } else {
-      image.style.filter = `${nameEffect.nameStyle}(${styleValue})`;
+    const selectedInput = editorImage.querySelector('input[type="radio"]:checked');
+    const settingsEffect = EFFECT_SETTINGS[selectedInput.value];
+
+    switch (settingsEffect.nameStyle) {
+      case 'grayscale':
+      case 'sepia':
+      case 'brightness':
+        image.style.filter = `${settingsEffect.nameStyle}(${styleValue})`;
+        break;
+      case 'invert':
+        image.style.filter = `${settingsEffect.nameStyle}(${styleValue}%)`;
+        break;
+      case 'blur':
+        image.style.filter = `${settingsEffect.nameStyle}(${styleValue}px)`;
+        break;
+      default:
+        image.style.filter = 'none';
     }
   });
-
 };
 
-const updateSliderOptions = (effect) => {
-  const nameEffect = EFFECT_SETTINGS[effect];
+const updateSliderOptions = () => {
+
+  const selectedInput = editorImage.querySelector('input[type="radio"]:checked');
+  const settingsEffect = EFFECT_SETTINGS[selectedInput.value];
 
   slider.noUiSlider.updateOptions({
     range: {
-      min: nameEffect.min,
-      max: nameEffect.max,
+      min: settingsEffect.min,
+      max: settingsEffect.max,
     },
-    step: nameEffect.step,
+    step: settingsEffect.step,
   });
 
-  slider.noUiSlider.set(nameEffect.max);
+  slider.noUiSlider.set(settingsEffect.max);
 };
 
 const deleteSlider = () => {

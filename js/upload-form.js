@@ -1,7 +1,7 @@
 import { isUniqueElements } from './utils/unique-element.js';
 import { removeClasses } from './utils/remove-classes.js';
 import { checkTypeFile } from './utils/type-file.js';
-import {createSlider, deleteSlider} from './effect-level.js';
+import {createSlider, updateSliderOptions, deleteSlider} from './effect-level.js';
 // import { sendData } from './api.js';
 
 const uploadForm = document.querySelector('#upload-select-image');
@@ -18,8 +18,6 @@ const hashtags = editorImage.querySelector('.text__hashtags');
 const description = editorImage.querySelector('.text__description');
 
 const fieldEffectLevel = editorImage.querySelector('.effect-level');
-// const slider = fieldEffectLevel.querySelector('.effect-level__slider');
-// const effectLevel = fieldEffectLevel.querySelector('.effect-level__value');
 
 const SCALE_MIN = 25;
 const SCALE_MAX = 100;
@@ -88,15 +86,11 @@ const onScaleControlClick = (evt) => {
 const onEffectsChange = (evt) => {
   if (evt.target.matches('input[type="radio"]')) {
     removeClasses(image);
-
+    updateSliderOptions();
     if (evt.target.value !== 'none') {
       image.classList.add(`effects__preview--${evt.target.value}`);
-
-      createSlider(evt.target.value);
-      // updateSliderOptions(evt.target.value);
       fieldEffectLevel.classList.remove('hidden');
     } else {
-      deleteSlider();
       fieldEffectLevel.classList.add('hidden');
     }
   }
@@ -131,7 +125,7 @@ const clearUploadForm = () => {
 const closeUploadForm = () => {
   editorImage.classList.add('hidden');
   document.body.classList.remove('modal-open');
-
+  deleteSlider();
   clearUploadForm();
 
   effectsList.removeEventListener('change', onEffectsChange);
@@ -159,6 +153,7 @@ const onUploadFormSubmit = (evt) => {
 const openUploadForm = () => {
   editorImage.classList.remove('hidden');
   document.body.classList.add('modal-open');
+  createSlider();
 
   const onKeydown = (evt) => {
     if (evt.key === 'Escape' && !checkActiveElement(document.activeElement)) {
