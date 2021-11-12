@@ -3,6 +3,8 @@ const showPopup = (status) => {
   const popup = templatePopup.cloneNode(true);
   document.body.insertAdjacentElement('beforeend', popup);
 
+  const button = popup.querySelector('button[type="button"]');
+
   const onKeydown = (evt) => {
     if (evt.key === 'Escape') {
       evt.preventDefault();
@@ -10,10 +12,17 @@ const showPopup = (status) => {
       document.removeEventListener('keydown', onKeydown);
     }
   };
-
   document.addEventListener('keydown', onKeydown);
 
-  document.addEventListener('click',
+  const onDocumentClick = (evt) => {
+    if (!evt.target.matches(`.${status} *`)) {
+      popup.remove();
+      document.removeEventListener('click', onDocumentClick);
+    }
+  };
+  document.addEventListener('click', onDocumentClick);
+
+  button.addEventListener('click',
     () => popup.remove(),
     {once: true},
   );
