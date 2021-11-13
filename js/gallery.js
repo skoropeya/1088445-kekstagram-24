@@ -4,21 +4,14 @@ const pictures = document.querySelector('.pictures');
 const templatePicture = document.querySelector('#picture').content.querySelector('.picture');
 const picturesFragment = document.createDocumentFragment();
 
-// сюда запишем массив объектов, полученный с сервера
-let dataPosts;
-
-const onPictureClick = (evt) => {
-  const targetElement = evt.target.closest('.picture');
-
-  if (targetElement) {
-    evt.preventDefault();
-    openPhoto(dataPosts[targetElement.id]);
-  }
+const clearPreviews = () => {
+  const allPreviews = pictures.querySelectorAll('a.picture');
+  allPreviews.forEach((preview) => {
+    preview.remove();
+  });
 };
 
 const showPreviews = (posts) => {
-  dataPosts = posts;
-
   posts.forEach((post) => {
     const postElement = templatePicture.cloneNode(true);
     postElement.id = post.id;
@@ -29,7 +22,17 @@ const showPreviews = (posts) => {
   });
 
   pictures.appendChild(picturesFragment);
-  pictures.addEventListener('click', onPictureClick);
 };
 
-export {showPreviews};
+const setPictureClick = (posts) => {
+  pictures.addEventListener(('click'), (evt) => {
+    const targetElement = evt.target.closest('.picture');
+
+    if (targetElement) {
+      evt.preventDefault();
+      openPhoto(posts[targetElement.id]);
+    }
+  });
+};
+
+export {showPreviews, clearPreviews, setPictureClick};
