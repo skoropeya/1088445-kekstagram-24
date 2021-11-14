@@ -96,12 +96,13 @@ const onEffectsChange = (evt) => {
   }
 };
 
-const onHashtagsChange = () => {
+const onHashtagsInput = () => {
   const text = hashtags.value.trim().toLowerCase();
   const hashtagsArray = text.split(' ');
 
   const message = checkHasgtags(hashtagsArray);
   hashtags.setCustomValidity(message);
+  description.reportValidity();
 };
 
 const onDescriptionInput = () => {
@@ -130,7 +131,7 @@ const closeUploadForm = () => {
 
   effectsList.removeEventListener('change', onEffectsChange);
   scaleControl.removeEventListener('click', onScaleControlClick);
-  hashtags.removeEventListener('change', onHashtagsChange);
+  hashtags.removeEventListener('input', onHashtagsInput);
   description.removeEventListener('input', onDescriptionInput);
 };
 
@@ -175,7 +176,7 @@ const openUploadForm = () => {
   document.addEventListener('keydown', onKeydown);
   effectsList.addEventListener('change', onEffectsChange);
   scaleControl.addEventListener('click', onScaleControlClick);
-  hashtags.addEventListener('change', onHashtagsChange);
+  hashtags.addEventListener('input', onHashtagsInput);
   description.addEventListener('input', onDescriptionInput);
   uploadForm.addEventListener('submit', onUploadFormSubmit);
 };

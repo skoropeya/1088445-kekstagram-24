@@ -33,7 +33,7 @@ const setFiltersClick = (posts) => {
     }
 
     if (attribute === 'filter-random') {
-      const selectedId = makeArrayFromRange(1, posts.length, COUNT_RANDOM_POSTS)();
+      const selectedId = makeArrayFromRange(0, posts.length - 1, COUNT_RANDOM_POSTS)();
       const filteredPosts = posts.filter((post) => selectedId.includes(post.id));
       showPreviews(filteredPosts);
     }
