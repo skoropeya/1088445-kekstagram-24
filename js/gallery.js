@@ -1,17 +1,17 @@
-import { openPhoto } from './full-photo.js';
+import { open as openPhoto } from './full-photo.js';
 
 const pictures = document.querySelector('.pictures');
 const templatePicture = document.querySelector('#picture').content.querySelector('.picture');
 const picturesFragment = document.createDocumentFragment();
 
-const clearPreviews = () => {
+const clear = () => {
   const allPreviews = pictures.querySelectorAll('a.picture');
   allPreviews.forEach((preview) => {
     preview.remove();
   });
 };
 
-const showPreviews = (posts) => {
+const show = (posts) => {
   posts.forEach((post) => {
     const postElement = templatePicture.cloneNode(true);
     postElement.id = post.id;
@@ -35,4 +35,4 @@ const setPictureClick = (posts) => {
   });
 };
 
-export {showPreviews, clearPreviews, setPictureClick};
+export {show, clear, setPictureClick};

@@ -1,4 +1,4 @@
-import { showPreviews, clearPreviews } from './gallery.js';
+import { show as showPreviews, clear as clearPreviews } from './gallery.js';
 import { makeArrayFromRange } from './utils/get-array-from-range.js';
 import { debounce } from './utils/debounce.js';
 
@@ -14,7 +14,7 @@ const blockFilters = document.querySelector('.img-filters');
 const formFilters = blockFilters.querySelector('.img-filters__form');
 const buttonsFilters = formFilters.querySelectorAll('.img-filters__button');
 
-const showFilters = () => {
+const show = () => {
   blockFilters.classList.remove('img-filters--inactive');
 };
 
@@ -31,7 +31,7 @@ const comparePosts = (postA, postB) => {
 };
 
 const setFiltersClick = (posts) => {
-  showFilters();
+  show();
 
   const sortPosts = (attribute) => {
     if (attribute === AttributesFilter.DEFAULT) {

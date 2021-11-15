@@ -1,6 +1,6 @@
 import { isEscapeKey } from './check-key.js';
 
-const showPopup = (status) => {
+const show = (status) => {
   const templatePopup = document.querySelector(`#${status}`).content.querySelector(`.${status}`);
   const popup = templatePopup.cloneNode(true);
   document.body.insertAdjacentElement('beforeend', popup);
@@ -30,4 +30,4 @@ const showPopup = (status) => {
   );
 };
 
-export {showPopup};
+export {show};

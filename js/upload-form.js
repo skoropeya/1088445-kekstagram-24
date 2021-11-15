@@ -1,9 +1,9 @@
 import { isUniqueElements } from './utils/unique-element.js';
 import { removeClasses } from './utils/remove-classes.js';
 import { checkTypeFile } from './utils/type-file.js';
-import {createSlider, updateSliderOptions, deleteSlider} from './effect-level.js';
+import { createSlider, updateSliderOptions, deleteSlider } from './effect-level.js';
 import { sendData } from './api.js';
-import { showPopup } from './utils/show-popup.js';
+import { show as showPopup } from './utils/show-popup.js';
 import { isEscapeKey } from './utils/check-key.js';
 
 const SCALE_MIN = 25;

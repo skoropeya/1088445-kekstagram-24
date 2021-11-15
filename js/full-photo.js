@@ -67,18 +67,18 @@ const showComments = (post) => {
   }
 };
 
-const closePhoto = () => {
+const close = () => {
   bigPicture.classList.add('hidden');
   document.body.classList.remove('modal-open');
   commentsLoader.classList.remove('hidden');
 };
 
 const onButtonCancelClick = () => {
-  closePhoto();
+  close();
   buttonCancel.removeEventListener('click', onButtonCancelClick);
 };
 
-const openPhoto = (post) => {
+const open = (post) => {
   bigPicture.classList.remove('hidden');
   document.body.classList.add('modal-open');
 
@@ -92,7 +92,7 @@ const openPhoto = (post) => {
   const onEscKeydown = (evt) => {
     if (isEscapeKey) {
       evt.preventDefault();
-      closePhoto();
+      close();
       buttonCancel.removeEventListener('click', onButtonCancelClick);
       document.removeEventListener('keydown', onEscKeydown);
     }
@@ -102,4 +102,4 @@ const openPhoto = (post) => {
   buttonCancel.addEventListener('click', onButtonCancelClick);
 };
 
-export {openPhoto};
+export {open};

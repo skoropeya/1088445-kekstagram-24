@@ -1,6 +1,6 @@
 const ALERT_SHOW_TIME = 5000;
 
-const showAlert = (message) => {
+const show = (message) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = 410;
   alertContainer.style.position = 'absolute';
@@ -23,4 +23,4 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-export {showAlert};
+export {show};
