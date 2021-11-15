@@ -1,3 +1,5 @@
+import { isEscapeKey } from './check-key.js';
+
 const showPopup = (status) => {
   const templatePopup = document.querySelector(`#${status}`).content.querySelector(`.${status}`);
   const popup = templatePopup.cloneNode(true);
@@ -6,7 +8,7 @@ const showPopup = (status) => {
   const button = popup.querySelector('button[type="button"]');
 
   const onKeydown = (evt) => {
-    if (evt.key === 'Escape') {
+    if (isEscapeKey) {
       evt.preventDefault();
       popup.remove();
       document.removeEventListener('keydown', onKeydown);

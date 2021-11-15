@@ -3,7 +3,16 @@ import { removeClasses } from './utils/remove-classes.js';
 import { checkTypeFile } from './utils/type-file.js';
 import {createSlider, updateSliderOptions, deleteSlider} from './effect-level.js';
 import { sendData } from './api.js';
-import { showPopup } from './show-popup.js';
+import { showPopup } from './utils/show-popup.js';
+import { isEscapeKey } from './utils/check-key.js';
+
+const SCALE_MIN = 25;
+const SCALE_MAX = 100;
+const SCALE_STEP = 25;
+const HASHTAG_LENGTH = 20;
+const HASHTAG_COUNT = 5;
+const DESCRIPTION_LENGTH = 140;
+const ORIGINAL_EFFECT = 'none';
 
 const uploadForm = document.querySelector('#upload-select-image');
 
@@ -18,13 +27,6 @@ const effectsList = editorImage.querySelector('.effects__list');
 const hashtags = editorImage.querySelector('.text__hashtags');
 const description = editorImage.querySelector('.text__description');
 const fieldEffectLevel = editorImage.querySelector('.effect-level');
-
-const SCALE_MIN = 25;
-const SCALE_MAX = 100;
-const SCALE_STEP = 25;
-const HASHTAG_LENGTH = 20;
-const HASHTAG_COUNT = 5;
-const DESCRIPTION_LENGTH = 140;
 
 const checkHasgtags = (hashtagsArray) => {
   let message = '';
@@ -87,7 +89,7 @@ const onEffectsChange = (evt) => {
   if (evt.target.matches('input[type="radio"]')) {
     removeClasses(image);
     updateSliderOptions();
-    if (evt.target.value !== 'none') {
+    if (evt.target.value !== ORIGINAL_EFFECT) {
       image.classList.add(`effects__preview--${evt.target.value}`);
       fieldEffectLevel.classList.remove('hidden');
     } else {
@@ -119,6 +121,7 @@ const clearUploadForm = () => {
   loaderFile.value = '';
   removeClasses(image);
   textScale.value = `${SCALE_MAX}%`;
+  image.style.transform = 'scale(1)';
   hashtags.value = '';
   description.value = '';
 };
@@ -159,9 +162,10 @@ const openUploadForm = () => {
   editorImage.classList.remove('hidden');
   document.body.classList.add('modal-open');
   createSlider();
+  fieldEffectLevel.classList.add('hidden');
 
   const onKeydown = (evt) => {
-    if (evt.key === 'Escape' && !checkActiveElement(document.activeElement)) {
+    if (isEscapeKey && !checkActiveElement(document.activeElement)) {
       evt.preventDefault();
       closeUploadForm();
       document.removeEventListener('keydown', onKeydown);

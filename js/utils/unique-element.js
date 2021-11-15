@@ -5,10 +5,8 @@ const isUniqueElements = (array) => {
       uniqueElements.push(element);
     }
   });
-  if (array.length > uniqueElements.length) {
-    return false;
-  }
-  return true;
+
+  return (uniqueElements.length === array.length);
 };
 
 export {isUniqueElements};

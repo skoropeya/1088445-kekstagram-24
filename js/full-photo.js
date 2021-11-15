@@ -1,3 +1,7 @@
+import { isEscapeKey } from './utils/check-key.js';
+
+const COMMENTS_COUNT = 5;
+
 const bigPicture = document.querySelector('.big-picture');
 const image = bigPicture.querySelector('.big-picture__img img');
 const likesCount = bigPicture.querySelector('.likes-count');
@@ -8,7 +12,6 @@ const buttonCancel = bigPicture.querySelector('#picture-cancel');
 const listComments = bigPicture.querySelector('.social__comments');
 const comment = listComments.querySelector('.social__comment');
 
-const COMMENTS_COUNT = 5;
 let counter = 0;
 
 const showComments = (post) => {
@@ -87,7 +90,7 @@ const openPhoto = (post) => {
   showComments(post);
 
   const onEscKeydown = (evt) => {
-    if (evt.key === 'Escape') {
+    if (isEscapeKey) {
       evt.preventDefault();
       closePhoto();
       buttonCancel.removeEventListener('click', onButtonCancelClick);

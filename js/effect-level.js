@@ -1,7 +1,11 @@
-const editorImage = document.querySelector('.img-upload__overlay');
-const image = editorImage.querySelector('.img-upload__preview img');
-const slider = editorImage.querySelector('.effect-level__slider');
-const effectLevel = editorImage.querySelector('.effect-level__value');
+const Effects = {
+  ORIGINAL: 'none',
+  CHROME: 'grayscale',
+  SEPIA: 'sepia',
+  HEAT: 'brightness',
+  MARVIN: 'invert',
+  PHOBOS: 'blur',
+};
 
 const EFFECT_SETTINGS = {
   'none': {
@@ -42,6 +46,11 @@ const EFFECT_SETTINGS = {
   },
 };
 
+const editorImage = document.querySelector('.img-upload__overlay');
+const image = editorImage.querySelector('.img-upload__preview img');
+const slider = editorImage.querySelector('.effect-level__slider');
+const effectLevel = editorImage.querySelector('.effect-level__value');
+
 const createSlider = () => {
   const noEffect = EFFECT_SETTINGS['none'];
   effectLevel.value = noEffect.max;
@@ -64,15 +73,15 @@ const createSlider = () => {
     const settingsEffect = EFFECT_SETTINGS[selectedInput.value];
 
     switch (settingsEffect.nameStyle) {
-      case 'grayscale':
-      case 'sepia':
-      case 'brightness':
+      case Effects.CHROME:
+      case Effects.SEPIA:
+      case Effects.HEAT:
         image.style.filter = `${settingsEffect.nameStyle}(${styleValue})`;
         break;
-      case 'invert':
+      case Effects.MARVIN:
         image.style.filter = `${settingsEffect.nameStyle}(${styleValue}%)`;
         break;
-      case 'blur':
+      case Effects.PHOBOS:
         image.style.filter = `${settingsEffect.nameStyle}(${styleValue}px)`;
         break;
       default:

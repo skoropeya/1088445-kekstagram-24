@@ -2,11 +2,17 @@ import { showPreviews, clearPreviews } from './gallery.js';
 import { makeArrayFromRange } from './utils/get-array-from-range.js';
 import { debounce } from './utils/debounce.js';
 
+const COUNT_RANDOM_POSTS = 10;
+
+const AttributesFilter = {
+  DEFAULT: 'filter-default',
+  RANDOM: 'filter-random',
+  DISCUSSED: 'filter-discussed',
+};
+
 const blockFilters = document.querySelector('.img-filters');
 const formFilters = blockFilters.querySelector('.img-filters__form');
 const buttonsFilters = formFilters.querySelectorAll('.img-filters__button');
-
-const COUNT_RANDOM_POSTS = 10;
 
 const showFilters = () => {
   blockFilters.classList.remove('img-filters--inactive');
@@ -28,17 +34,17 @@ const setFiltersClick = (posts) => {
   showFilters();
 
   const sortPosts = (attribute) => {
-    if (attribute === 'filter-default') {
+    if (attribute === AttributesFilter.DEFAULT) {
       showPreviews(posts);
     }
 
-    if (attribute === 'filter-random') {
+    if (attribute === AttributesFilter.RANDOM) {
       const selectedId = makeArrayFromRange(0, posts.length - 1, COUNT_RANDOM_POSTS)();
       const filteredPosts = posts.filter((post) => selectedId.includes(post.id));
       showPreviews(filteredPosts);
     }
 
-    if (attribute === 'filter-discussed') {
+    if (attribute === AttributesFilter.DISCUSSED) {
       const filteredPosts = posts.slice().sort(comparePosts);
       showPreviews(filteredPosts);
     }
