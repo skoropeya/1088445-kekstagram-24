@@ -50,6 +50,11 @@ const setFiltersClick = (posts) => {
     return filteredPosts;
   };
 
+  const clearAndSort = (id) => {
+    clearPreviews();
+    showPreviews(sortPosts(id));
+  };
+
   const onFiltersClick = (evt) => {
     deactivateButtons();
 
@@ -58,11 +63,10 @@ const setFiltersClick = (posts) => {
       activeButton.classList.add('img-filters__button--active');
     }
 
-    clearPreviews();
-    showPreviews(sortPosts(activeButton.id));
+    debounce(clearAndSort)(activeButton.id);
   };
 
-  formFilters.addEventListener('click', debounce(onFiltersClick));
+  formFilters.addEventListener('click', onFiltersClick);
 };
 
 export {setFiltersClick};
