@@ -34,20 +34,20 @@ const setFiltersClick = (posts) => {
   show();
 
   const sortPosts = (attribute) => {
+    let filteredPosts;
     if (attribute === AttributesFilter.DEFAULT) {
-      showPreviews(posts);
+      filteredPosts = posts.slice();
     }
 
     if (attribute === AttributesFilter.RANDOM) {
       const selectedId = makeArrayFromRange(0, posts.length - 1, COUNT_RANDOM_POSTS)();
-      const filteredPosts = posts.filter((post) => selectedId.includes(post.id));
-      showPreviews(filteredPosts);
+      filteredPosts = posts.filter((post) => selectedId.includes(post.id));
     }
 
     if (attribute === AttributesFilter.DISCUSSED) {
-      const filteredPosts = posts.slice().sort(comparePosts);
-      showPreviews(filteredPosts);
+      filteredPosts = posts.slice().sort(comparePosts);
     }
+    return filteredPosts;
   };
 
   const onFiltersClick = (evt) => {
@@ -59,7 +59,7 @@ const setFiltersClick = (posts) => {
     }
 
     clearPreviews();
-    sortPosts(activeButton.id);
+    showPreviews(sortPosts(activeButton.id));
   };
 
   formFilters.addEventListener('click', debounce(onFiltersClick));
