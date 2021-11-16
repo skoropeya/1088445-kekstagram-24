@@ -50,23 +50,20 @@ const setFiltersClick = (posts) => {
     return filteredPosts;
   };
 
-  const clearAndSort = (id) => {
+  const onClickUpdateGallery = (evt) => {
     clearPreviews();
-    showPreviews(sortPosts(id));
+    showPreviews(sortPosts(evt.target.id));
   };
 
-  const onFiltersClick = (evt) => {
+  const onClickUpdateButtons = (evt) => {
     deactivateButtons();
-
     const activeButton = evt.target;
     if (activeButton.closest('.img-filters__button')) {
       activeButton.classList.add('img-filters__button--active');
     }
-
-    debounce(clearAndSort)(activeButton.id);
   };
 
-  formFilters.addEventListener('click', onFiltersClick);
+  formFilters.addEventListener('click', debounce(onClickUpdateGallery, onClickUpdateButtons));
 };
 
 export {setFiltersClick};
