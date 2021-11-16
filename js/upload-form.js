@@ -117,7 +117,7 @@ const onDescriptionInput = () => {
   description.reportValidity();
 };
 
-const clearUploadForm = () => {
+const clearForm = () => {
   loaderFile.value = '';
   removeClasses(image);
   textScale.value = `${SCALE_MAX}%`;
@@ -126,31 +126,19 @@ const clearUploadForm = () => {
   description.value = '';
 };
 
-const closeUploadForm = () => {
-  editorImage.classList.add('hidden');
-  document.body.classList.remove('modal-open');
-  deleteSlider();
-  clearUploadForm();
-
-  effectsList.removeEventListener('change', onEffectsChange);
-  scaleControl.removeEventListener('click', onScaleControlClick);
-  hashtags.removeEventListener('input', onHashtagsInput);
-  description.removeEventListener('input', onDescriptionInput);
-};
-
 const onUploadFormSubmit = (evt) => {
   evt.preventDefault();
 
   sendData(
     () => {
       uploadForm.removeEventListener('submit', onUploadFormSubmit);
-      closeUploadForm();
+      closeForm();
       showPopup('success');
     },
 
     () => {
       uploadForm.removeEventListener('submit', onUploadFormSubmit);
-      closeUploadForm();
+      closeForm();
       showPopup('error');
     },
 
@@ -158,26 +146,25 @@ const onUploadFormSubmit = (evt) => {
   );
 };
 
-const openUploadForm = () => {
+const onKeydown = (evt) => {
+  if (isEscapeKey && !checkActiveElement(document.activeElement)) {
+    evt.preventDefault();
+    closeForm();
+  }
+};
+
+const onButtonCancelClick = () => {
+  closeForm();
+};
+
+const openForm = () => {
   editorImage.classList.remove('hidden');
   document.body.classList.add('modal-open');
   createSlider();
   fieldEffectLevel.classList.add('hidden');
 
-  const onKeydown = (evt) => {
-    if (isEscapeKey && !checkActiveElement(document.activeElement)) {
-      evt.preventDefault();
-      closeUploadForm();
-      document.removeEventListener('keydown', onKeydown);
-    }
-  };
-
-  buttonCancel.addEventListener('click',
-    () => closeUploadForm(),
-    {once: true},
-  );
-
   document.addEventListener('keydown', onKeydown);
+  buttonCancel.addEventListener('click', onButtonCancelClick);
   effectsList.addEventListener('change', onEffectsChange);
   scaleControl.addEventListener('click', onScaleControlClick);
   hashtags.addEventListener('input', onHashtagsInput);
@@ -185,12 +172,27 @@ const openUploadForm = () => {
   uploadForm.addEventListener('submit', onUploadFormSubmit);
 };
 
+function closeForm () {
+  editorImage.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+  deleteSlider();
+  clearForm();
+
+  document.removeEventListener('keydown', onKeydown);
+  buttonCancel.removeEventListener('click', onButtonCancelClick);
+  effectsList.removeEventListener('change', onEffectsChange);
+  scaleControl.removeEventListener('click', onScaleControlClick);
+  hashtags.removeEventListener('input', onHashtagsInput);
+  description.removeEventListener('input', onDescriptionInput);
+  uploadForm.removeEventListener('submit', onUploadFormSubmit);
+}
+
 const onLoaderFileChange = () => {
   const file = loaderFile.files[0];
   if (checkTypeFile(file)) {
     image.src = URL.createObjectURL(file);
   }
-  openUploadForm();
+  openForm();
 };
 
 export {onLoaderFileChange};
